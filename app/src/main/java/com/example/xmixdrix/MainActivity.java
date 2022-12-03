@@ -1,4 +1,6 @@
 package com.example.xmixdrix;
+
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         int tappedImgId = Integer.parseInt(tappedImg.getTag().toString());
         Log.d("TAG", "The current player is (1=X 2=O):" + currentPlayer );
         Log.d("TAG","tapped on box number " + tappedImgId);
+
+        // game reset when the game over or someone win
+        if (!isGameActive) {
+            gameReset(view);
+        }
 
         // new turn - if the tapped image is empty
         if (gameState[tappedImgId] == 0) {
@@ -113,6 +120,28 @@ public class MainActivity extends AppCompatActivity {
         boxes[winPosition[0]].setBackgroundResource(winningLine);
         boxes[winPosition[1]].setBackgroundResource(winningLine);
         boxes[winPosition[2]].setBackgroundResource(winningLine);
+    }
+
+    // reset the game
+    public void gameReset(View view) {
+        ImageView[] boxes = { box0, box1, box2, box3, box4, box5, box6, box7, box8 };
+        isGameActive = true;
+        currentPlayer = 1;
+        turnsCounter = 0;
+        Log.d("TAG", "Game Over");
+
+        for (int i = 0; i < gameState.length; i++) {
+            gameState[i] = 0;
+        }
+
+        // remove all the images from the boxes inside the grid
+        for (ImageView box: boxes) {
+            box.setImageResource(0);
+            box.setBackgroundResource(0);
+        }
+
+        ImageView status = findViewById(R.id.turnStatus);
+        status.setImageResource(0);
     }
 
     @Override
