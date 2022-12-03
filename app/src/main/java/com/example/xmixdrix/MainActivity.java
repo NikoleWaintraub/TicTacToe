@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TAG", "The current player is (1=X 2=O):" + currentPlayer );
         Log.d("TAG","tapped on box number " + tappedImgId);
 
-
         // new turn - if the tapped image is empty
         if (gameState[tappedImgId] == 0) {
             Log.d("TAG", "turn's number " + turnsCounter);
@@ -86,6 +85,13 @@ public class MainActivity extends AppCompatActivity {
             }
             countForWinnerLine++;
         }
+
+        // check if the last turn
+        if (turnsCounter == 9) {
+            status.setImageResource(R.drawable.nowin);
+            isGameActive = false;
+            Log.d("TAG", "No win");
+        }
     }
 
     public void showWinnerLine(int[] winPosition, int countForWinnerLine) {
@@ -108,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
         boxes[winPosition[1]].setBackgroundResource(winningLine);
         boxes[winPosition[2]].setBackgroundResource(winningLine);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
